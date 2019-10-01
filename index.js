@@ -1,8 +1,10 @@
+require('dotenv').config();
 import express from 'express';
 import cors from 'cors';
 import bodyParser from 'body-parser';
 import morgan from 'morgan';
 import routes from './routes';
+import models, { connectDb } from './models';
 
 const app = express();
 
@@ -15,6 +17,8 @@ app.use('/recipes', routes.recipes);
 app.use('/ingredients', routes.ingredients);
 
 const port = process.env.PORT || 4000;
-app.listen(port, () => {
-    console.log(`listening on ${port}`);
+connectDb().then(() => {
+    app.listen(port, () => {
+        console.log(`listening on ${port}`);
+    });
 });
