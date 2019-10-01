@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import Ingredient from './ingredient';
 
 const options = {
     useNewUrlParser: true,
@@ -9,7 +10,9 @@ const connectDb = () => {
     return mongoose.connect(process.env.DATABASE_URL, options);
 };
 
-const models = {};
+const models = {
+    Ingredient,
+};
 
 export { connectDb };
 
