@@ -20,6 +20,15 @@ router.get('/:id', async (req, res) => {
   }
 });
 
+router.post('/search', async (req, res) => {
+  const { search } = req.body;
+  const findRecipe = await Recipe.find({ name: new RegExp(search, 'ig') });
+  if (findRecipe.length) {
+    return res.send(findRecipe);
+  }
+  return res.status(404).send(`Could not find any recipe matching "${search}"`);
+});
+
 router.delete('/', async (req, res) => {
   const { id } = req.body;
   try {
