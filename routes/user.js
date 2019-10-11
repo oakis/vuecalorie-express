@@ -44,10 +44,11 @@ router.post("/login", async (req, res) => {
             return res.status(400).send({ message: "The password is invalid" });
         }
         const token = user.generateAuthToken();
-        res.header("x-auth-token", token).send({
+        res.send({
             _id: user._id,
             username: user.username,
-            email: user.email
+            email: user.email,
+            token
         });
     } catch (e) {
         console.log(e);

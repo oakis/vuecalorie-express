@@ -8,6 +8,10 @@ const recipeSchema = new mongoose.Schema({
     },
     ingredients: {
         type: Array,
+    },
+    createdBy: {
+        type: String,
+        required: true,
     }
 });
 const Recipe = mongoose.model('Recipe', recipeSchema);

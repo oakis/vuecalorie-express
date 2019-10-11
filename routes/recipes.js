@@ -50,8 +50,8 @@ router.delete('/', async (req, res) => {
 });
 
 router.post('/', (req, res) => {
-  const { name, ingredients } = req.body;
-  const newRecipe = new Recipe({ name, ingredients });
+  const { name, ingredients, createdBy } = req.body;
+  const newRecipe = new Recipe({ name, ingredients, createdBy });
   newRecipe.save()
     .then(data => {
       return res.send(data);
