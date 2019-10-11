@@ -1,5 +1,4 @@
 import { Router } from 'express';
-import mongoose from 'mongoose';
 import Recipe from '../models/recipe';
 import Ingredients from '../models/ingredient';
 
