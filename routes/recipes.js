@@ -1,5 +1,7 @@
 import { Router } from 'express';
+import mongoose from 'mongoose';
 import Recipe from '../models/recipe';
+import Ingredients from '../models/ingredient';
 
 const router = Router();
 
@@ -13,9 +15,12 @@ router.get('/', async (req, res) => {
 
 router.get('/:id', async (req, res) => {
   try {
-    const findRecipe = await Recipe.find({ _id: req.params.id });
-    return res.json(findRecipe[0]);
+    const findRecipe = await Recipe.findById(req.params.id).lean();
+    const findIngredients = await Ingredients.find().where('_id').in(findRecipe.ingredients).exec();
+    const recipe = { ...findRecipe, ingredients: findIngredients };
+    return res.send(recipe);
   } catch (e) {
+    console.log(e);
     return res.status(404).send(`Could not find recipe with id ${req.params.id}`);
   }
 });
