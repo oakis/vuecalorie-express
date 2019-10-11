@@ -37,7 +37,6 @@ router.post("/login", async (req, res) => {
     try {
         if (!req.body.username || !req.body.password) return res.status(400).send({ message: "Username and password required." })
         var user = await User.findOne({ username: req.body.username }).exec();
-        console.log(req.body.username, req.body.password, user.password);
         if(!user) {
             return res.status(400).send({ message: "The username does not exist" });
         }
