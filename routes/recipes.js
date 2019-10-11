@@ -24,13 +24,26 @@ router.get('/:id', async (req, res) => {
   }
 });
 
+router.get('/search/:id', async (req, res) => {
+  try {
+    const findRecipes = await Recipe.find({ createdBy: req.params.id });
+    return res.send(findRecipes);
+  } catch (e) {
+    console.log(e);
+    return res.status(404).send(`Could not find recipes for user id ${req.params.id}`);
+  }
+});
+
 router.post('/search', async (req, res) => {
   const { search } = req.body;
-  const findRecipe = await Recipe.find({ name: new RegExp(search, 'ig') });
-  if (findRecipe.length) {
-    return res.send(findRecipe);
+  try {
+    const findRecipe = await Recipe.find({ name: new RegExp(search, 'ig') });
+    if (findRecipe.length) {
+      return res.send(findRecipe);
+    }
+  } catch (e) {
+    return res.status(404).send(`Could not find any recipe matching "${search}"`);
   }
-  return res.status(404).send(`Could not find any recipe matching "${search}"`);
 });
 
 router.delete('/', async (req, res) => {
