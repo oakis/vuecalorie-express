@@ -40,9 +40,11 @@ router.post('/search', async (req, res) => {
     const findRecipe = await Recipe.find({ name: new RegExp(search, 'ig') });
     if (findRecipe.length) {
       return res.send(findRecipe);
+    } else {
+      throw new Error(`Could not find any recipe matching "${search}"`);
     }
   } catch (e) {
-    return res.status(404).send(`Could not find any recipe matching "${search}"`);
+    return res.send(e);
   }
 });
 

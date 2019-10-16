@@ -25,11 +25,16 @@ router.post('/', (req, res) => {
 
 router.post('/search', async (req, res) => {
   const { search } = req.body;
-  const findIngredient = await Ingredient.find({ name: new RegExp(search, 'ig') });
-  if (findIngredient.length) {
-    return res.send(findIngredient);
+  try {
+    const findIngredient = await Ingredient.find({ name: new RegExp(search, 'ig') });
+    if (findIngredient.length) {
+      return res.send(findIngredient);
+    } else {
+      throw new Error(`Could not find any ingredients matching "${search}"`);
+    }
+  } catch (e) {
+    return res.send(e);
   }
-  return res.status(404).send(`Could not find any ingredients matching "${search}"`);
 });
 
 router.delete('/', async (req, res) => {
